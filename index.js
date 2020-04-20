@@ -47,9 +47,10 @@ bot.on("message", (m) => {
       } else if (args[1] <= 0) {
         return m.reply("What do you think I am, put a positive number!");
       } else {
+        console.log(args[1]);
         m.channel.bulkDelete(args[1]); //in this case, args[1] has to be an int
       }
-      //console.log("hi");
+
       break;
     case "embed":
       const embed = new Discord.MessageEmbed()
