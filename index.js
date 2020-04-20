@@ -21,7 +21,7 @@ bot.on("message", (m) => {
     case "info":
       //there is a difference between undefined and NULL
       if (args[1] != undefined) {
-        m.channel.send(
+        return m.channel.send(
           "so here is the info for " +
             args[1] +
             ": unknown species. you are welcome"
@@ -31,6 +31,10 @@ bot.on("message", (m) => {
           "I don't know what info you want, please specify with one more word"
         );
       }
+      break;
+    case "clear":
+      if (!args[1]) return m.reply("please specify");
+      m.channel.bulkDelete(args[1]);
       break;
   }
   // if (m.content.toUpperCase() === "HELLO" || m.content.toUpperCase() === "HI") {
