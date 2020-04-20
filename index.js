@@ -6,4 +6,10 @@ bot.on("ready", () => {
   console.log("Tis Bot is online, yayyy");
 });
 
+bot.on("message", (m) => {
+  if (m.content === "HELLO") {
+    m.reply("Wow you are not a bot, you talk?");
+  }
+});
+
 bot.login(token);
