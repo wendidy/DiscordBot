@@ -8,6 +8,10 @@ bot.on("ready", () => {
 });
 
 bot.on("message", (m) => {
+  //checking if the first char is '#'
+  if (m.content[0] != "#") {
+    return;
+  }
   //length will always be 1, basically its splitting the string into words separated by space
   //meanwhile get rid of the prefix
   let args = m.content.substring(PREFIX.length).split(" ");
@@ -22,9 +26,11 @@ bot.on("message", (m) => {
       //there is a difference between undefined and NULL
       if (args[1] != undefined) {
         return m.channel.send(
-          "so here is the info for " +
+          "So here is the info for " +
             args[1] +
-            ": unknown species. you are welcome"
+            ": unknown species. You are welcome."
+          //*need to change the special char in front of the name,
+          //e.g @onion
         );
       } else {
         m.reply(
@@ -34,7 +40,9 @@ bot.on("message", (m) => {
       break;
     case "clear":
       if (!args[1]) return m.reply("please specify");
-      m.channel.bulkDelete(args[1]);
+      else if (args[1] <= 0)
+        return m.reply("invalid number, number needs to be > 0");
+      m.channel.bulkDelete(args[1]); //in this case, args[1] has to be an int
       break;
   }
   // if (m.content.toUpperCase() === "HELLO" || m.content.toUpperCase() === "HI") {
