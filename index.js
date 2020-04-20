@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const bot = new Discord.Client();
-const token = "NzAxMTQ3NDI0NTY3MTk3Nzk4.XpxsKw.VBcdBjKA_L4I0R2KGG-2uNVPkLA";
+const token = "NzAxMTQ3NDI0NTY3MTk3Nzk4.Xpz70w.3FAnszxU8osgyJexzWNaSMZW9mI";
 const PREFIX = "#";
 
 bot.on("ready", () => {
@@ -12,9 +12,25 @@ bot.on("message", (m) => {
   //meanwhile get rid of the prefix
   let args = m.content.substring(PREFIX.length).split(" ");
   switch (args[0]) {
+    // case t.toUpperCase() === "hi".toUpperCase(): //need to fix this
+    //   m.reply("hi");
+    //   break;
     case "ping":
-      // m.reply("you think you are a ping pong or what");
       m.channel.send("sup");
+      break;
+    case "info":
+      //there is a difference between undefined and NULL
+      if (args[1] != undefined) {
+        m.channel.send(
+          "so here is the info for " +
+            args[1] +
+            ": unknown species. you are welcome"
+        );
+      } else {
+        m.reply(
+          "I don't know what info you want, please specify with one more word"
+        );
+      }
       break;
   }
   // if (m.content.toUpperCase() === "HELLO" || m.content.toUpperCase() === "HI") {
