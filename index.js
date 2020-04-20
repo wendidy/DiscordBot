@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const bot = new Discord.Client();
 const token = "NzAxMTQ3NDI0NTY3MTk3Nzk4.Xpz70w.3FAnszxU8osgyJexzWNaSMZW9mI";
 const PREFIX = ".";
+const ms = require("ms");
 
 bot.on("ready", () => {
   console.log("Tis Bot is online, yayyy");
@@ -20,6 +21,33 @@ bot.on("message", (m) => {
     // case t.toUpperCase() === "hi".toUpperCase(): //need to fix this
     //   m.reply("hi");
     //   break;
+    case "mute":
+      let person = m.guild.member(
+        m.mentions.users.first() || m.guild.members.get(args[1])
+      );
+      if (!person) return m.reply("I don't know who this is, bro.");
+
+      let mainrole = m.guild.roles.find((role) => role.name === "Main");
+      let muterole = m.guild.roles.find((role) => role.name === "Mute");
+
+      if (!muterole) return m.reply("Sorry they simply don't exsit.");
+
+      let time = args[2];
+      if (!time) return m.reply("That's not a time. How did you even do it?");
+
+      person.roles.remove(mainrole.id);
+      person.addRole(muterole.id);
+
+      m.channel.send(
+        `@${person.user.tag} has now been mute for ${ms(ms(time))}`
+      );
+
+      setTimeout(() => {
+        person.addRole(mainRole.id);
+        person.role.remove(mutrole.id); //switching the order and see how that looks like
+        m.channel.send(`@${person.user.tag} has been unmuted, good job!`);
+      }, ms(time));
+
     case "ping":
       m.channel.send("sup");
       break;
