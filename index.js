@@ -23,6 +23,7 @@ bot.on("message", (m) => {
     //   m.reply("hi");
     //   break;
     case "mute":
+      //When there is overlap, the new comand apparently takes over the older one, needs to be fixed
       let person = m.mentions.members.first() || m.guild.members.fetch(args[1]); //m.guild.member(
       //console.log(person);
       if (!person) return m.reply("I don't know who this is, bro.");
@@ -40,11 +41,8 @@ bot.on("message", (m) => {
 
       let allRoles = null;
       if (!noRole) {
-        allRoles = person.roles;
-        person.roles
-          .remove(person.roles)
-          .then(console.log)
-          .catch(console.error);
+        allRoles = person.roles.cache;
+        person.roles.remove(allRoles).then(console.log).catch(console.error);
       }
       person.roles.add(muterole.id);
 
@@ -60,6 +58,7 @@ bot.on("message", (m) => {
         person.roles.remove(muterole.id); //switching the order and see how that looks like
         m.channel.send(`@${person.user.tag} has been unmuted, good job!`);
       }, ms(time));
+      break;
 
     case "ping":
       m.channel.send("sup");
