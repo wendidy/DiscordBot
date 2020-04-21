@@ -27,27 +27,39 @@ bot.on("message", (m) => {
       //console.log(person);
       if (!person) return m.reply("I don't know who this is, bro.");
 
-      let mainrole = m.guild.roles.cache.find((role) => role.name === "Main");
+      // let mainrole = m.guild.roles.cache.find((role) => role.name === "Main");
       let muterole = m.guild.roles.cache.find((role) => role.name === "Mute");
 
       if (!muterole) return m.reply("Sorry they simply don't exsit.");
 
       let time = args[2];
-      console.log(time);
       if (!time) return m.reply("That's not a time. How did you even do it?");
 
-      person.removeRole(mainrole.id);
-      person.addRole(muterole.id);
-      // person.remove("Main");
-      // person.add("Mute");
+      var noRole = true;
+      if (person.roles) noRole = false;
+      let arr = [];
+      if (!noRole) {
+        let allRoles = person.roles;
+        // for (let i = 0; i < allRoles.length; i++) {
+        //   arr.push(allRoles[i].name);
+        // }
+        // console.log(arr);
+        // arr.forEach((role) => person.roles.remove(role));
+        person.roles.forEach((role) => person.roles.remove(role.name));
+      }
+      person.roles.add(muterole.id);
 
       m.channel.send(
         `@${person.user.tag} has now been mute for ${ms(ms(time))}`
       );
 
       setTimeout(() => {
-        person.addRole(mainRole.id);
-        person.removeRole(muterole.id); //switching the order and see how that looks like
+        // person.roles.add(allRoles.id);
+        if (!noRole) {
+          // arr.forEach((role) => person.roles.add(role));
+          person.roles.forEach((role) => person.roles.add(role.name));
+        }
+        person.roles.remove(muterole.id); //switching the order and see how that looks like
         m.channel.send(`@${person.user.tag} has been unmuted, good job!`);
       }, ms(time));
 
@@ -78,7 +90,7 @@ bot.on("message", (m) => {
       } else if (args[1] <= 0) {
         return m.reply("What do you think I am, put a positive number!");
       } else {
-        console.log(args[1]);
+        //console.log(args[1]);
         m.channel.bulkDelete(args[1]); //in this case, args[1] has to be an int
       }
 
