@@ -16,27 +16,30 @@ bot.on("message", (m) => {
   //length will always be 1, basically its splitting the string into words separated by space
   //meanwhile get rid of the prefix
   let args = m.content.slice(PREFIX.length).split(" ");
+  console.log(args);
   //console.log(args);
   switch (args[0]) {
     // case t.toUpperCase() === "hi".toUpperCase(): //need to fix this
     //   m.reply("hi");
     //   break;
     case "mute":
-      let person = m.guild.member(
-        m.mentions.users.first() || m.guild.members.get(args[1])
-      );
+      let person = m.mentions.members.first() || m.guild.members.fetch(args[1]); //m.guild.member(
+      //console.log(person);
       if (!person) return m.reply("I don't know who this is, bro.");
 
-      let mainrole = m.guild.roles.find((role) => role.name === "Main");
-      let muterole = m.guild.roles.find((role) => role.name === "Mute");
+      let mainrole = m.guild.roles.cache.find((role) => role.name === "Main");
+      let muterole = m.guild.roles.cache.find((role) => role.name === "Mute");
 
       if (!muterole) return m.reply("Sorry they simply don't exsit.");
 
       let time = args[2];
+      console.log(time);
       if (!time) return m.reply("That's not a time. How did you even do it?");
 
-      person.roles.remove(mainrole.id);
+      person.removeRole(mainrole.id);
       person.addRole(muterole.id);
+      // person.remove("Main");
+      // person.add("Mute");
 
       m.channel.send(
         `@${person.user.tag} has now been mute for ${ms(ms(time))}`
@@ -44,7 +47,7 @@ bot.on("message", (m) => {
 
       setTimeout(() => {
         person.addRole(mainRole.id);
-        person.role.remove(mutrole.id); //switching the order and see how that looks like
+        person.removeRole(muterole.id); //switching the order and see how that looks like
         m.channel.send(`@${person.user.tag} has been unmuted, good job!`);
       }, ms(time));
 
