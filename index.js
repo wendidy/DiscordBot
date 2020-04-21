@@ -37,15 +37,14 @@ bot.on("message", (m) => {
 
       var noRole = true;
       if (person.roles) noRole = false;
-      let arr = [];
+
+      let allRoles = null;
       if (!noRole) {
-        let allRoles = person.roles;
-        // for (let i = 0; i < allRoles.length; i++) {
-        //   arr.push(allRoles[i].name);
-        // }
-        // console.log(arr);
-        // arr.forEach((role) => person.roles.remove(role));
-        person.roles.forEach((role) => person.roles.remove(role.name));
+        allRoles = person.roles;
+        person.roles
+          .remove(person.roles)
+          .then(console.log)
+          .catch(console.error);
       }
       person.roles.add(muterole.id);
 
@@ -56,8 +55,7 @@ bot.on("message", (m) => {
       setTimeout(() => {
         // person.roles.add(allRoles.id);
         if (!noRole) {
-          // arr.forEach((role) => person.roles.add(role));
-          person.roles.forEach((role) => person.roles.add(role.name));
+          person.roles.add(allRoles).then(console.log).catch(console.error);
         }
         person.roles.remove(muterole.id); //switching the order and see how that looks like
         m.channel.send(`@${person.user.tag} has been unmuted, good job!`);
