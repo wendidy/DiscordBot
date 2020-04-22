@@ -24,6 +24,9 @@ bot.on("message", (m) => {
     //   break;
     case "mute":
       //When there is overlap, the new comand apparently takes over the older one, needs to be fixed
+      //break problem, needs a bool
+      //roles dont get changed back
+      //permission
       let person = m.mentions.members.first() || m.guild.members.fetch(args[1]); //m.guild.member(
       //console.log(person);
       if (!person) return m.reply("I don't know who this is, bro.");
@@ -44,12 +47,14 @@ bot.on("message", (m) => {
         allRoles = person.roles.cache;
         person.roles.remove(allRoles).then(console.log).catch(console.error);
       }
+      console.log(2);
       person.roles.add(muterole.id);
 
       m.channel.send(
         `@${person.user.tag} has now been mute for ${ms(ms(time))}`
       );
 
+      //more = false;
       setTimeout(() => {
         // person.roles.add(allRoles.id);
         if (!noRole) {
